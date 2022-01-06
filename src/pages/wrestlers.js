@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactCardFlip from 'react-card-flip';
-import sumo from '../Terunofuji.jpg';
-import shodai from '../Shodai.jpg';
 
 class Wrestlers extends React.Component {
 
@@ -42,14 +40,7 @@ class Wrestlers extends React.Component {
     }
 
     render() {
-        // let wrestlers = [
-        //     { ringname: 'Terunofuji', givenname: 'Seizan', familyname: 'Suginomori', dateofbirth: '1991-11-29', placeofbirth: 'Mongolia', height: '192', weight: '184' },
-        //     { ringname: "Shodai", familyname:"Shodai",givenname:"Naoya",dateofbirth:"1991-11-05",placeofbirth:"Kumamoto",height:183,weight:167},
-        //     { ringname: 'Terunofuji', givenname: 'Seizan', familyname: 'Suginomori', dateofbirth: '1991-11-29', placeofbirth: 'Mongolia', height: '192', weight: '184' },
-        //     { ringname: "Shodai", familyname:"Shodai",givenname:"Naoya",dateofbirth:"1991-11-05",placeofbirth:"Kumamoto",height:183,weight:167},
-        //     { ringname: 'Terunofuji', givenname: 'Seizan', familyname: 'Suginomori', dateofbirth: '1991-11-29', placeofbirth: 'Mongolia', height: '192', weight: '184' },
-        //     { ringname: "Shodai", familyname:"Shodai",givenname:"Naoya",dateofbirth:"1991-11-05",placeofbirth:"Kumamoto",height:183,weight:167}
-        // ]
+
         console.log(this.state.wrestlers.length);
         const splitArray = this.breakIntoArrayOfArrays(this.state.wrestlers,  this.state.wrestlers.length/3);
         return (
@@ -60,16 +51,6 @@ class Wrestlers extends React.Component {
                 <BlogCard wrestler={wrestler}/>
               </div>
             ))}
-
-            {/* {splitArray.map((wrestlers, i) => (
-                <div className="row" key = {i}>
-                    {wrestlers.map((wrestler, ii) => (
-                        <div className="col-xs-3" key={ii}>
-                            <BlogCard wrestler={wrestler}/>
-                        </div>
-                    ))}    
-                </div>
-            ))} */}
 
             <footer>
               

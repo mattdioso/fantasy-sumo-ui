@@ -20,6 +20,11 @@ const Navbar = () => {
                 })}>
                     Wrestlers
                 </NavLink>
+                <NavLink to="/tournaments" style={isActive => ({
+                    color: isActive ? "black": "white"
+                })}>
+                    Tournaments
+                </NavLink>
             </NavMenu>
         </Nav>
         </>
