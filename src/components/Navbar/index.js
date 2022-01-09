@@ -25,6 +25,11 @@ const Navbar = () => {
                 })}>
                     Tournaments
                 </NavLink>
+                <NavLink to="/banzuke" style={isActive => ({
+                    color: isActive ? "black" : "white"
+                })}>
+                    Banzuke
+                </NavLink>
             </NavMenu>
         </Nav>
         </>

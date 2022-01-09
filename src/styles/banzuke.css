@@ -1,0 +1,47 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background: grey;
+    position: absolute;
+    box-sizing: border-box;
+}
+
+.banzuke {
+    position: center;
+    width: 45rem;
+    height: 100%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 5rem;
+}
+
+.banzuke-header {
+    width: 45rem;
+    height: 3.5rem;
+    border-radius: 0.5rem 0.5rem 0rem 0rem;
+    background: #f8f6ea;
+    grid-template-columns: repeat(16, 1fr);
+    border: 1px solid black;
+    display: grid;
+}
+
+.banzuke .west {
+    grid-column: span 7;
+    border-right: 1px solid black;
+}
+
+.banzuke .rank {
+    grid-column: 8 / 10;
+}
+
+.banzuke .east {
+    grid-column: span 7;
+    border-left: 1px solid black;
+}
+
+h3 {
+    margin: 0;
+    text-align: center;
+    font-size: 2rem;
+}

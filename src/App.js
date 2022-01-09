@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages';
 import Wrestlers from './pages/wrestlers';
 import Tournaments from './pages/tournaments';
+import Banzuke from './pages/banzuke';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/wrestlers" element={<Wrestlers />}/>
         <Route path="/tournaments" element={<Tournaments />}/>
+        <Route path="/banzuke" element={<Banzuke />}/>
       </Routes>
     </Router>
     // <Navbar bg="light" expand="lg">

@@ -10,7 +10,7 @@
     box-shadow: 10px 10px 5px #5f4d63;
 }
 
-.wrestler {
+div.match div.wrestler {
     grid-column: span 2;
     display: grid;
     width: 100%;
@@ -21,12 +21,12 @@
     grid-template-rows: 4;
 }
 
-.east {
+div.match div.wrestler.east {
     grid-column: 9 / 17;
     grid-row: 1 / 5;
 }
 
-.west {
+div.match div.wrestler.west {
     grid-column: 1 / 9;
     grid-row: 1 / 5;
 }
@@ -55,11 +55,11 @@ div.wrestler.west img.sumo_icon {
     border: 1px solid black;
 }
 
-.win {
+.wrestler.win, .technique.win {
     border: 2px solid dodgerblue;
 }
 
-.loss {
+.wrestler.loss {
     border: 2px solid red;
 }
 
