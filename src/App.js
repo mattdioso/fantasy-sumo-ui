@@ -9,6 +9,7 @@ import Home from './pages';
 import Wrestlers from './pages/wrestlers';
 import Tournaments from './pages/tournaments';
 import Banzuke from './pages/banzuke';
+import Fantasy from './pages/fantasy';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/wrestlers" element={<Wrestlers />}/>
         <Route path="/tournaments" element={<Tournaments />}/>
         <Route path="/banzuke" element={<Banzuke />}/>
+        <Route path="/fantasy" element={<Fantasy />}/>
       </Routes>
     </Router>
     // <Navbar bg="light" expand="lg">

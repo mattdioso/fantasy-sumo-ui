@@ -30,6 +30,11 @@ const Navbar = () => {
                 })}>
                     Banzuke
                 </NavLink>
+                <NavLink to="/fantasy" style={isActive => ({
+                    color: isActive ? "black": "white"
+                })}>
+                    Fantasy
+                </NavLink>
             </NavMenu>
         </Nav>
         </>
