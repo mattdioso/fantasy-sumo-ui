@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class Tab extends Component {
     static propTypes = {
-        activeType: PropTypes.string.isRequired,
+        // activeType: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
         onClick: PropTypes.func.isRequired
     };
