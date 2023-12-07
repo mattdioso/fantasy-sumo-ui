@@ -9,7 +9,7 @@ class Banzuke extends React.Component {
         super();
         this.state = {
             rankings: [],
-            tournament_id: "b889be51-18fc-4572-90fd-d49f21643a85"
+            tournament_id: "1faf296f-1e65-4572-8ad5-7d977c200cc5"
         }
     }
 
@@ -74,8 +74,7 @@ class Banzuke extends React.Component {
         let m_list = this.createRankList(maegashira_west, maegashira_east);
         
         let selections = [
-            { label: "November Basho", value: "857bc3fa-c100-4952-b5bf-3114471cba55" },
-            { label: "January Basho", value: "b889be51-18fc-4572-90fd-d49f21643a85" }
+            { label: "November Basho", value: "1faf296f-1e65-4572-8ad5-7d977c200cc5" }
         ]
         
         return (

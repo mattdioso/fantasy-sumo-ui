@@ -1,6 +1,7 @@
 import React from 'react';
 import Tabs from '../components/tabs';
 import Team from '../components/team';
+import ScoreBoard from '../components/scoreboard';
 
 class Fantasy extends React.Component {
     constructor() {
@@ -32,7 +33,7 @@ class Fantasy extends React.Component {
                         
                     </div>
                     <div label="Scoreboard">
-                        This is where Fantasy Scores will go
+                        <ScoreBoard />
                     </div>
                 </Tabs>
             </div>

@@ -17,7 +17,7 @@ class Team extends React.Component {
         return (
             <div class="team">
                 <div class="icon">
-                    <img src={user_icon} width="112" height="108"></img>
+                    <img src={user_icon} width="111px" height="108px"></img>
                 </div>
                 <div class="wrestlers">
                     {wrestlers.map((wrestler) => (
