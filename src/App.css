@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: "grey";
+  background-color: white;
 }
 
 .App-logo {
@@ -42,7 +42,8 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  background: #d1b6d6;
+  /* background: #d1b6d6; */
+  background-color: white;
   font-family: 'Yanone Kaffeesatz', sans-serif;
   position: absolute;
   box-sizing: border-box;
