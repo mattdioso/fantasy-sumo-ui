@@ -3,14 +3,22 @@ import ScoreBoardCell from './scoreboard_cell';
 import ScoreBoardRow from './scoreboard_row';
 
 import TeamScore from './team_score';
-import '../styles/fantasy_scoreboard.css';
+// import '../styles/fantasy_scoreboard.css';
+import Select from 'react-select';
 
 class ScoreBoard extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          teams: []
+          teams: [], 
+          selections: [
+            {label: "Matchup 1", value:1},
+            {label: "Matchup 2", value:2},
+            {label: "Matchup 3", value:3},
+            {label: "Matchup 4", value:4},
+            {label: "Matchup 5", value:5}
+          ]
         }
     }
 
@@ -29,33 +37,31 @@ class ScoreBoard extends React.Component {
         console.log(this.state.teams);
         let tournament_id= "857bc3fa-c100-4952-b5bf-3114471cba55";
         return (
-          <div class="content">
-            <div class="board">
-              <div class="selection">
-                <div class="dropdown">
-
-                </div>
+          <div class="flex h-full w-full overflow-x-hidden overflow-y-hidden justify-center">
+            <div class="block h-4/5 w-4/5 mt-10 border-solid border-black border absolute justify-center">
+              <div class="flex w-[99%] flex-row-reverse my-2">
+                <Select name="tournaments"  options={this.state.selections} onChange={(selection) => this.setTourney(selection)}/>
               </div>
-              <div class="matchup">
-                <div class="pairs">
-                <div class="pair selected">
-                        <p>Matt vs. Alex</p>
+              <div class="block h-[92%] w-[98%] border border-solid border-gray-500 absolute mx-2">
+                <div class="w-full h-20 flex">
+                    <div class="h-full w-1/3 border border-solid border-gray-500 bg-blue-400">
+                        <p class="text-center my-6">Matt vs. Alex</p>
                     </div>
-                    <div class="pair">
-                        <p>Matt vs. Alex</p>
+                    <div class="h-full w-1/3 border border-solid border-gray-500">
+                        <p class="text-center my-6">Matt vs. Alex</p>
                     </div>
-                    <div class="pair">
-                        <p>Matt vs. Alex</p>
+                    <div class="h-full w-1/3 border border-solid border-gray-500">
+                        <p class="text-center my-6">Matt vs. Alex</p>
                     </div>
                 </div>
-                <div class="teams">
-                  <div class="team">
-                        <div class="user">
-                            <div class="pic">
+                <div class="h-[88.5%] w-full flex">
+                  <div class="h-full w-full border border-solid border-gray-500">
+                        <div class="h-32 w-full border-b border-solid border-gray-500 grid grid-cols-3">
+                            <div class="h-32 col-span-2 content-center">
                                 
                             </div>
-                            <div class="score">
-                                <p>
+                            <div class="h-32 col-span-1">
+                                <p class="text-center my-10">
                                     11.7
                                 </p>
                             </div>
@@ -119,7 +125,7 @@ class ScoreBoard extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div class="team">
+                    <div class="h-full w-full flex">
 
                     </div>
                 </div>
