@@ -34,7 +34,9 @@ class Tournaments extends React.Component {
                     value: unique_days[i]
                 })
             }
-            
+            day_arr.sort(function(a, b) {
+                return parseInt(a.value) - parseInt(b.value);
+            });
             this.setState({
                 day_matches: day_matches,
                 days: day_arr,
@@ -61,6 +63,7 @@ class Tournaments extends React.Component {
                 value: days[i].id
             });
         }
+        ret.sort();
         return ret;
     }
 
@@ -86,6 +89,7 @@ class Tournaments extends React.Component {
     setDay(selection) {
         let tournament_matches = this.state.matches;
         let day_matches  = tournament_matches.filter(match => match.day === selection.value);
+        console.log(day_matches);
         this.setState({
             day: selection.value,
             day_matches: day_matches
