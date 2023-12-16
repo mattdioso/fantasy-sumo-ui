@@ -20,9 +20,12 @@ class ScoreBoard extends React.Component {
           team1: {},
           team2: {},
           team1_wrestlers: [],
-          team2_wrestlers: []
+          team2_wrestlers: [],
+          team1_score: 0,
+          team2_score: 0
         }
         this.changePair = this.changePair.bind(this);
+        this.getWrestlerScore = this.getWrestlerScore.bind(this);
     }
 
     componentDidMount() {
@@ -74,15 +77,49 @@ class ScoreBoard extends React.Component {
           // selected_pair: 0
         });
         this.setMatchup(ret[ret.length-1]);
-        console.log(this.state.team1_wrestlers);
+        // console.log(this.state.selection.value.length);
       })
     }
 
+    getWrestlerScore(team, wrestler) {
+      const headers = { 'Content-Type': 'application/json' };
+      let matchup = this.state.selection.value.filter(matchup => matchup.team1.id === team || matchup.team2.id === team);
+      let matches = [];
+      for (let i =0; i< matchup.length; i++) {
+        let match_arr = matchup[i].matches;
+        matches.push(...match_arr);
+      }
+      console.log(matches);
+      let wrestler_matches = matches.filter(match => match.idWrestler1 === wrestler || match.idWrestler2 === wrestler);
+      console.log(wrestler_matches.length);
+      let wrestler_score = 5.0;
+      let match_score = 0;
+      for (let i = 0; i < wrestler_matches.length; i++) {
+        // console.log(wrestler_matches[i].id);
+        let match_id = wrestler_matches[i].id;
+        fetch('http://localhost:5000/api/matches/' + match_id + '/score', {headers}).then(res => res.json()).then((res) => {
+          // console.log(wrestler_matches[i].idWrestler1 === wrestler);
+          // console.log(wrestler);
+          if (wrestler === wrestler_matches[i].idWrestler1 && wrestler_matches[i].win1 === 0) {
+            
+            wrestler_score += parseFloat(res.score);
+            
+          }
+          if (wrestler === wrestler_matches[i].idWrestler2 && wrestler_matches[i].win2 === 0) {
+            
+            wrestler_score += parseFloat(res.score);
+            
+          }
+        });
+      }
+      console.log(wrestler_score);
+      return wrestler_score;
+    }
+
     setMatchup(matchup) {
-      //console.log(matchup.value);
       let matchups = matchup.value;
       let pairs = matchups.map(this.getTeammatchups);
-      console.log(matchups);
+      
       let selected_matchup = matchups[this.state.selected_pair];
       let team1 = selected_matchup.team1;
       let team2 = selected_matchup.team2;
@@ -106,13 +143,13 @@ class ScoreBoard extends React.Component {
     changePair(e) {
       
       let selected_matchup = this.state.selection.value[e.target.id];
-      console.log(selected_matchup);
+      
       let team1 = selected_matchup.team1;
       let team2 = selected_matchup.team2;
       this.setState({
         selected_pair: e.target.id,
         team1: team1,
-        team2: team2,
+        team2: team2, 
         team1_wrestlers: team1.wrestlers,
         team2_wrestlers: team2.wrestlers
       })
@@ -158,7 +195,7 @@ class ScoreBoard extends React.Component {
                                   <p class="text-center">{wrestler.ringname}</p>
                                 </div>
                                 <div class="col-span-1">
-                                  <p class="text-center">{wrestler.weight}</p>
+                                  <p class="text-center">{this.getWrestlerScore(this.state.team1.id, wrestler.id)}</p>
                                 </div>
                               </div>
                             ))
