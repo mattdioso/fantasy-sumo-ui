@@ -16,8 +16,13 @@ class ScoreBoard extends React.Component {
           ],
           pairs: [],
           selection: "",
-          selected_pair: 0
+          selected_pair: 0,
+          team1: {},
+          team2: {},
+          team1_wrestlers: [],
+          team2_wrestlers: []
         }
+        this.changePair = this.changePair.bind(this);
     }
 
     componentDidMount() {
@@ -64,10 +69,12 @@ class ScoreBoard extends React.Component {
             value: matchup_5
           });
         this.setState({
-          selections: ret,
-          selection: this.setMatchup(ret[ret.length-1]),
-          selected_pair: 0
-        })
+          selections: ret
+          // selection: this.setMatchup(ret[ret.length-1]),
+          // selected_pair: 0
+        });
+        this.setMatchup(ret[ret.length-1]);
+        console.log(this.state.team1_wrestlers);
       })
     }
 
@@ -75,15 +82,40 @@ class ScoreBoard extends React.Component {
       //console.log(matchup.value);
       let matchups = matchup.value;
       let pairs = matchups.map(this.getTeammatchups);
-      console.log(pairs);
+      console.log(matchups);
+      let selected_matchup = matchups[this.state.selected_pair];
+      let team1 = selected_matchup.team1;
+      let team2 = selected_matchup.team2;
+      let team1_wrestlers = team1.wrestlers;
+      let team2_wrestlers = team2.wrestlers;
       this.setState({
         pairs: pairs,
-        selected_pair: 0
-      })
+        selected_pair: 0,
+        selection: matchup,
+        team1: team1,
+        team2: team2,
+        team1_wrestlers: team1.wrestlers,
+        team2_wrestlers: team2.wrestlers
+      });
     }
 
     getTeammatchups(matchup) {
       return [matchup.team1.teamname, matchup.team2.teamname].join(" vs. ")
+    }
+
+    changePair(e) {
+      
+      let selected_matchup = this.state.selection.value[e.target.id];
+      console.log(selected_matchup);
+      let team1 = selected_matchup.team1;
+      let team2 = selected_matchup.team2;
+      this.setState({
+        selected_pair: e.target.id,
+        team1: team1,
+        team2: team2,
+        team1_wrestlers: team1.wrestlers,
+        team2_wrestlers: team2.wrestlers
+      })
     }
 
     render() {
@@ -98,9 +130,9 @@ class ScoreBoard extends React.Component {
                 <div class="w-full h-20 flex">
                   {
                     this.state.pairs.map((pair, i) => (
-                      <div class={`h-full w-1/3 border border-solid border-gray-500 ${this.state.selected_pair == i ? 'bg-blue-400': ''}`}>
-                        <p class="text-center my-6">{pair}</p>
-                    </div>
+                      <div id={i} onClick={this.changePair} class={`h-full w-1/3 border border-solid border-gray-500 ${this.state.selected_pair == i ? 'bg-blue-400': ''}`}>
+                        <p id={i} class="text-center my-6">{pair}</p>
+                      </div>
                     ))
                   }
                     
@@ -118,54 +150,20 @@ class ScoreBoard extends React.Component {
                             </div>
                         </div>
                         <div class="h-[77%] w-full grid grid-rows-7">
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
+                          {
+                            
+                            this.state.team1_wrestlers.map((wrestler, i) => (
+                              <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
                                 <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
+                                  <p class="text-center">{wrestler.ringname}</p>
                                 </div>
                                 <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
+                                  <p class="text-center">{wrestler.weight}</p>
                                 </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
+                              </div>
+                            ))
+                          }
+                           
                             <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
                                 <div class="col-span-2 border-r-2 border-solid border-gray-500">
                                     <p class="text-center">Total points</p>
@@ -189,54 +187,20 @@ class ScoreBoard extends React.Component {
                             </div>
                         </div>
                         <div class="h-[77%] w-full grid grid-rows-7">
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
+                        {
+                            
+                            this.state.team2_wrestlers.map((wrestler, i) => (
+                              <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
                                 <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
+                                  <p class="text-center">{wrestler.ringname}</p>
                                 </div>
                                 <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
+                                  <p class="text-center">{wrestler.weight}</p>
                                 </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
-                            <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-2 border-r-2 border-solid border-gray-500">
-                                    <p class="text-center">Terunofuji</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-center">5.6</p>
-                                </div>
-                            </div>
+                              </div>
+                            ))
+                          }
+                            
                             <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
                                 <div class="col-span-2 border-r-2 border-solid border-gray-500">
                                     <p class="text-center">Total points</p>
