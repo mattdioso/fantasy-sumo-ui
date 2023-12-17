@@ -26,6 +26,8 @@ class ScoreBoard extends React.Component {
         }
         this.changePair = this.changePair.bind(this);
         this.getWrestlerScore = this.getWrestlerScore.bind(this);
+        this.getTeamScore = this.getTeamScore.bind(this);
+        this.getUserPic = this.getUserPic.bind(this);
     }
 
     componentDidMount() {
@@ -45,6 +47,11 @@ class ScoreBoard extends React.Component {
         let matchup_3 = res.filter(matchup => matchup.day1 == 7);
         let matchup_4 = res.filter(matchup => matchup.day1 == 10);
         let matchup_5 = res.filter(matchup => matchup.day1 == 13);
+        console.log(matchup_1)
+        console.log(matchup_2.length)
+        console.log(matchup_3.length)
+        console.log(matchup_4.length)
+        console.log(matchup_5.length)
         let ret = [];
         if (matchup_1 !== undefined && matchup_1.length != 0)
           ret.push({
@@ -73,11 +80,12 @@ class ScoreBoard extends React.Component {
           });
         this.setState({
           selections: ret
-          // selection: this.setMatchup(ret[ret.length-1]),
+          //selection: this.setMatchup(ret[ret.length-1]),
           // selected_pair: 0
         });
+        
         this.setMatchup(ret[ret.length-1]);
-        // console.log(this.state.selection.value.length);
+        
       })
     }
 
@@ -89,31 +97,74 @@ class ScoreBoard extends React.Component {
         let match_arr = matchup[i].matches;
         matches.push(...match_arr);
       }
-      console.log(matches);
+      
       let wrestler_matches = matches.filter(match => match.idWrestler1 === wrestler || match.idWrestler2 === wrestler);
-      console.log(wrestler_matches.length);
-      let wrestler_score = 5.0;
-      let match_score = 0;
+      
+      let wrestler_score = 0.0;
+      
       for (let i = 0; i < wrestler_matches.length; i++) {
-        // console.log(wrestler_matches[i].id);
-        let match_id = wrestler_matches[i].id;
-        fetch('http://localhost:5000/api/matches/' + match_id + '/score', {headers}).then(res => res.json()).then((res) => {
-          // console.log(wrestler_matches[i].idWrestler1 === wrestler);
-          // console.log(wrestler);
-          if (wrestler === wrestler_matches[i].idWrestler1 && wrestler_matches[i].win1 === 0) {
+        
+        let match_score = wrestler_matches[i].match_score;
+        
+        // if (wrestler === "21edde30-a115-4fbd-8a68-8717a8d99f12") {
+        //   console.log(matchup);
+
+        //   console.log(wrestler_matches[i].id);
+        //   console.log(wrestler_matches[i].idWrestler1);
+        //   console.log(wrestler_matches[i].win1);
+        //   console.log(wrestler_matches[i].idWrestler2);
+        //   console.log(wrestler_matches[i].win2);
+        // }
+        if (wrestler === wrestler_matches[i].idWrestler1 && wrestler_matches[i].win1 === 0) {
             
-            wrestler_score += parseFloat(res.score);
-            
+          wrestler_score += parseFloat(match_score.score);
+          if (wrestler === "21edde30-a115-4fbd-8a68-8717a8d99f12") {
+            console.log("found ryuden")
+            console.log(wrestler_matches);
+            console.log(match_score);
           }
-          if (wrestler === wrestler_matches[i].idWrestler2 && wrestler_matches[i].win2 === 0) {
-            
-            wrestler_score += parseFloat(res.score);
-            
+        }
+        if (wrestler === wrestler_matches[i].idWrestler2 && wrestler_matches[i].win2 === 0) {
+          
+          wrestler_score += parseFloat(match_score.score);
+          if (wrestler === "21edde30-a115-4fbd-8a68-8717a8d99f12") {
+            console.log("found ryuden")
+            console.log(wrestler_matches);
+            console.log(match_score);
           }
-        });
+        }
+        
       }
-      console.log(wrestler_score);
-      return wrestler_score;
+      
+      return wrestler_score.toFixed(1);
+    }
+
+    getTeamScore(team) {
+      
+      let matchup = this.state.selection.value.filter(matchup => matchup.team1.id === team.id || matchup.team2.id === team.id);
+      let matches = [];
+      for (let i = 0; i < matchup.length; i++) {
+        let match_arr = matchup[i].matches;
+        matches.push(...match_arr);
+      }
+
+      let team_wrestlers = team.wrestlers;
+      let score = 0.0;
+      for (let i = 0; i < team_wrestlers.length; i++) {
+        let wrestler = team_wrestlers[i];
+        
+        let wrestler_matches = matches.filter(match => match.idWrestler1 === wrestler.id || match.idWrestler2 === wrestler.id);
+        for (let x = 0; x < wrestler_matches.length; x++) {
+          let match_score = wrestler_matches[x].match_score;
+          if (wrestler.id === wrestler_matches[x].idWrestler1 && wrestler_matches[x].win1 === 0) {
+            score += parseFloat(match_score.score);
+          }
+          if (wrestler.id === wrestler_matches[x].idWrestler2 && wrestler_matches[x].win2 === 0) {
+            score += parseFloat(match_score.score);
+          }
+        }
+      }
+      return score.toFixed(1);
     }
 
     setMatchup(matchup) {
@@ -125,6 +176,7 @@ class ScoreBoard extends React.Component {
       let team2 = selected_matchup.team2;
       let team1_wrestlers = team1.wrestlers;
       let team2_wrestlers = team2.wrestlers;
+      
       this.setState({
         pairs: pairs,
         selected_pair: 0,
@@ -132,7 +184,9 @@ class ScoreBoard extends React.Component {
         team1: team1,
         team2: team2,
         team1_wrestlers: team1.wrestlers,
-        team2_wrestlers: team2.wrestlers
+        team2_wrestlers: team2.wrestlers,
+        team1_score: selected_matchup.team1_score.toFixed(1),
+        team2_score: selected_matchup.team2_score.toFixed(1)
       });
     }
 
@@ -143,7 +197,7 @@ class ScoreBoard extends React.Component {
     changePair(e) {
       
       let selected_matchup = this.state.selection.value[e.target.id];
-      
+      console.log(this.state.selection.value);
       let team1 = selected_matchup.team1;
       let team2 = selected_matchup.team2;
       this.setState({
@@ -151,8 +205,15 @@ class ScoreBoard extends React.Component {
         team1: team1,
         team2: team2, 
         team1_wrestlers: team1.wrestlers,
-        team2_wrestlers: team2.wrestlers
+        team2_wrestlers: team2.wrestlers,
+        team1_score: selected_matchup.team1_score.toFixed(1),
+        team2_score: selected_matchup.team2_score.toFixed(1)
       })
+    }
+
+    getUserPic(team) {
+      
+      return "http://localhost:5000/api/users/<ID>/avatar".replace("<ID>", team.user.id);
     }
 
     render() {
@@ -177,18 +238,18 @@ class ScoreBoard extends React.Component {
                 <div class="h-[88.5%] w-full flex">
                   <div class="h-full w-full border border-solid border-gray-500">
                         <div class="h-32 w-full border-b border-solid border-gray-500 grid grid-cols-3">
-                            <div class="h-32 col-span-2 content-center">
-                                
+                            <div class="h-32 col-span-2 content-center px-28">
+                                <img src={this.state.selection ? this.getUserPic(this.state.team1) : ""} width="111px" height="108px"></img>
                             </div>
                             <div class="h-32 col-span-1">
-                                <p class="text-center my-10">
-                                    11.7
+                                <p class="text-center my-10 text-6xl">
+                                  {this.state.team1_score}
+                                {/* {this.state.selection ? this.getTeamScore(this.state.team1) : 0} */}
                                 </p>
                             </div>
                         </div>
                         <div class="h-[77%] w-full grid grid-rows-7">
-                          {
-                            
+                          { 
                             this.state.team1_wrestlers.map((wrestler, i) => (
                               <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
                                 <div class="col-span-2 border-r-2 border-solid border-gray-500">
@@ -206,7 +267,8 @@ class ScoreBoard extends React.Component {
                                     <p class="text-center">Total points</p>
                                 </div>
                                 <div class="col-span-1">
-                                    <p class="text-center">33.6</p>
+                                    {/* <p class="text-center">{this.state.selection ? this.getTeamScore(this.state.team1) : 0}</p> */}
+                                    <p class="text-center">{this.state.team1_score}</p>
                                 </div>
                             </div>
                         </div>
@@ -214,14 +276,16 @@ class ScoreBoard extends React.Component {
                     <div class="h-full w-full flex">
                     <div class="h-full w-full border border-solid border-gray-500">
                         <div class="h-32 w-full border-b border-solid border-gray-500 grid grid-cols-3">
-                            <div class="h-32 col-span-2 content-center">
-                                
-                            </div>
-                            <div class="h-32 col-span-1">
-                                <p class="text-center my-10">
-                                    11.7
+                            <div class="h-32 col-span-1"> 
+                                <p class="text-center text-6xl my-10">
+                                  {this.state.team2_score}
+                                {/* {this.state.selection ? this.getTeamScore(this.state.team2) : 0} */}
                                 </p>
                             </div>
+                            <div class="h-32 col-span-2 content-center px-28">
+                              <img src={this.state.selection ? this.getUserPic(this.state.team2) : ""} width="111px" height="108px"></img>
+                            </div>
+                            
                         </div>
                         <div class="h-[77%] w-full grid grid-rows-7">
                         {
@@ -232,7 +296,7 @@ class ScoreBoard extends React.Component {
                                   <p class="text-center">{wrestler.ringname}</p>
                                 </div>
                                 <div class="col-span-1">
-                                  <p class="text-center">{wrestler.weight}</p>
+                                  <p class="text-center">{this.getWrestlerScore(this.state.team1.id, wrestler.id)}</p>
                                 </div>
                               </div>
                             ))
@@ -243,7 +307,8 @@ class ScoreBoard extends React.Component {
                                     <p class="text-center">Total points</p>
                                 </div>
                                 <div class="col-span-1">
-                                    <p class="text-center">33.6</p>
+                                    {/* <p class="text-center">{this.state.selection ? this.getTeamScore(this.state.team2) : 0}</p> */}
+                                    <p class="text-center">{this.state.team2_score}</p>
                                 </div>
                             </div>
                         </div>
