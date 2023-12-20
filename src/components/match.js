@@ -16,13 +16,13 @@ class Match extends React.Component {
         const wrestler_api = 'http://localhost:5000/api/wrestlers/';
         const technique_api = 'http://localhost:5000/api/techniques/';
 
-        fetch(wrestler_api + this.props.match.idWrestler1, {headers}).then(res => res.json()).then((res) => {
+        fetch(wrestler_api + this.props.match.wrestler1.id, {headers}).then(res => res.json()).then((res) => {
             
             this.setState({
                 east_wrestler: res.ringname
             })
         });
-        fetch(wrestler_api + this.props.match.idWrestler2, {headers}).then(res => res.json()).then((res) => {
+        fetch(wrestler_api + this.props.match.wrestler2.id, {headers}).then(res => res.json()).then((res) => {
             this.setState({
                 west_wrestler: res.ringname
             })
@@ -37,17 +37,17 @@ class Match extends React.Component {
 
     componentDidUpdate(prevProps) {
         
-        if (prevProps.match.idWrestler1 !== this.props.match.idWrestler1 || prevProps.match.idWrestler2 !== this.props.match.idWrestler2) {
+        if (prevProps.match.wrestler1.id !== this.props.match.wrestler1.id || prevProps.match.wrestler2.id !== this.props.match.wrestler2.id) {
             
             const headers = { 'Content-Type': 'application/json'};
             const wrestler_api = 'http://localhost:5000/api/wrestlers/';
             const technique_api = 'http://localhost:5000/api/techniques/';
-            fetch(wrestler_api + this.props.match.idWrestler1, {headers}).then(res => res.json()).then((res) => {
+            fetch(wrestler_api + this.props.match.wrestler1.id, {headers}).then(res => res.json()).then((res) => {
                 this.setState({
                     east_wrestler: res.ringname
                 })
             });
-            fetch(wrestler_api + this.props.match.idWrestler2, {headers}).then(res => res.json()).then((res) => {
+            fetch(wrestler_api + this.props.match.wrestler2.id, {headers}).then(res => res.json()).then((res) => {
                 this.setState({
                     west_wrestler: res.ringname
                 })
@@ -62,8 +62,8 @@ class Match extends React.Component {
 
     render() {
         
-        var west_icon = "http://localhost:5000/api/wrestlers/<ID>/icon".replace("<ID>", this.props.match.idWrestler2);
-        var east_icon = "http://localhost:5000/api/wrestlers/<ID>/icon".replace("<ID>", this.props.match.idWrestler1);
+        var west_icon = "http://localhost:5000/api/wrestlers/<ID>/icon".replace("<ID>", this.props.match.wrestler2.id);
+        var east_icon = "http://localhost:5000/api/wrestlers/<ID>/icon".replace("<ID>", this.props.match.wrestler1.id);
         return (
             <div class="match">
                 <div class={`wrestler west ${this.props.match.win2 === 0 ? "win": "loss"}`}>
