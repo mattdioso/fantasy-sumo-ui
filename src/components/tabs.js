@@ -33,7 +33,7 @@ class Tabs extends Component {
         } = this;
 
         return (
-            <div className="tabs">
+            <div className="h-full w-full overflow-hidden">
                 <ol className="tab-list">
                     {children.map((child) => {
                         const { label } = child.props;
@@ -48,7 +48,7 @@ class Tabs extends Component {
                         );
                     })}
                 </ol>
-                <div className={this.state.activeTab.toLowerCase() + " tab-content"}>
+                <div class="h-full w-full overflow-hidden">
                     {children.map((child) => {
                         if(child.props.label !== activeTab)
                             return undefined;

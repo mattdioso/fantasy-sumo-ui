@@ -2,6 +2,7 @@ import React from 'react';
 import ScoreBoardCell from './scoreboard_cell';
 import ScoreBoardRow from './scoreboard_row';
 import Modal from './matchup_modal';
+import TeamScoreModal from './team_score_modal';
 
 import TeamScore from './team_score';
 // import '../styles/fantasy_scoreboard.css';
@@ -26,7 +27,9 @@ class ScoreBoard extends React.Component {
           team1_score: 0,
           team2_score: 0,
           modalToggle: false,
-          modalWrestler: []
+          modalWrestler: [],
+          teamModalToggle: false,
+          teamModalTeam: {}
         }
         this.changePair = this.changePair.bind(this);
         this.getWrestlerScore = this.getWrestlerScore.bind(this);
@@ -279,7 +282,7 @@ class ScoreBoard extends React.Component {
                                 <div class="col-span-2 border-r-2 border-solid border-gray-500">
                                     <p class="text-center">Total points</p>
                                 </div>
-                                <div class="col-span-1">
+                                <div class="col-span-1" onClick={() => {this.setState({teamModalToggle: !this.teamModalToggle, teamModalTeam: this.state.team1})}}>
                                     {/* <p class="text-center">{this.state.selection ? this.getTeamScore(this.state.team1) : 0}</p> */}
                                     <p class="text-center">{this.state.selection ?  this.getTeamScore(this.state.team1) : 0}</p>
                                 </div>
@@ -318,7 +321,7 @@ class ScoreBoard extends React.Component {
                           }
                             
                             <div class="row-span-1 grid grid-cols-3 border border-solid border-gray-500">
-                                <div class="col-span-1">
+                                <div class="col-span-1" onClick={() => {this.setState({teamModalToggle: !this.teamModalToggle, teamModalTeam: this.state.team2})}}>
                                     {/* <p class="text-center">{this.state.selection ? this.getTeamScore(this.state.team2) : 0}</p> */}
                                     <p class="text-center">{this.state.selection ? this.getTeamScore(this.state.team2) : 0}</p>
                                 </div>
@@ -336,6 +339,7 @@ class ScoreBoard extends React.Component {
             <Modal open={this.state.modalToggle} onClose={() => this.setState({modalToggle: !this.state.modalToggle})} wrestler={this.state.modalWrestler} matches={this.state.matches} matchup={this.state.selection ? this.state.selection.value[0]: {}}>
 
             </Modal>
+            <TeamScoreModal open={this.state.teamModalToggle} onClose={() => this.setState({teamModalToggle: !this.state.teamModalToggle})} team={this.state.teamModalTeam ? this.state.teamModalTeam : {}} matches={this.state.matches} matchup={this.state.selection ? this.state.selection.value[0]: {}}></TeamScoreModal>
           </div>
         );
 

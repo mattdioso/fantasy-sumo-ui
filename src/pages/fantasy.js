@@ -2,6 +2,7 @@ import React from 'react';
 import Tabs from '../components/tabs';
 import Team from '../components/team';
 import ScoreBoard from '../components/scoreboard';
+import LeaderBoard from '../components/leaderboard';
 
 class Fantasy extends React.Component {
     constructor() {
@@ -24,13 +25,14 @@ class Fantasy extends React.Component {
     render() {
         console.log(this.state.teams);
         return (
-            <div>
+            <div className="h-[90.9%] w-full">
                 <Tabs>
-                    <div class="team-layout" label="Teams">
-                        {this.state.teams.map((team) => (
+                    <div label="Teams">
+                        {/* {this.state.teams.map((team) => (
                             <Team team={team} />
-                        ))}
+                        ))} */}
                         
+                        <LeaderBoard></LeaderBoard>
                     </div>
                     <div label="Scoreboard">
                         <ScoreBoard />

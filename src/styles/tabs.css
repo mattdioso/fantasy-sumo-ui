@@ -16,9 +16,9 @@
     border-width: 1px 1px 0 1px;
 }
 
-div.teams.tab-content {
+/* div.teams.tab-content {
     display:grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 0.1rem;
     margin-left: 1.5rem;
-}
+} */

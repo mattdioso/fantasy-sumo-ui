@@ -66,12 +66,12 @@ class Match extends React.Component {
         var east_icon = "http://localhost:5000/api/wrestlers/<ID>/icon".replace("<ID>", this.props.match.wrestler1.id);
         return (
             <div class="match">
-                <div class={`wrestler west ${this.props.match.win2 === 0 ? "win": "loss"}`}>
+                <div class={`wrestler west ${this.props.match.win2 ? "win": "loss"}`}>
                     <img class="sumo_icon" src={west_icon}></img>
                     <p>{this.state.west_wrestler}</p>
                     
                 </div>
-                <div class={`wrestler east ${this.props.match.win1 === 0 ? "win": "loss"}`}>
+                <div class={`wrestler east ${this.props.match.win1 ? "win": "loss"}`}>
                     <img class="sumo_icon" src={east_icon}></img>
                     <p>{this.state.east_wrestler}</p>
                     

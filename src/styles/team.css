@@ -1,17 +1,16 @@
-.team {
+/* .team {
     position: cetner;
     width: 14rem;
     height: 29rem;
     border: 1px solid black;
     border-radius: 15px;
-    /* margin-left: 45%;
-    margin-right: 45%; */
+
     margin-top: 5rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(17, 1fr);
     background: white;
-}
+} */
 
 div.team div.icon {
     grid-column: 2 / span 2;
