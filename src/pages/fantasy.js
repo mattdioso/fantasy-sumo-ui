@@ -25,7 +25,7 @@ class Fantasy extends React.Component {
     render() {
         console.log(this.state.teams);
         return (
-            <div className="h-[90.9%] w-full">
+            <div className="h-full  w-full">
                 <Tabs>
                     <div label="Teams">
                         {/* {this.state.teams.map((team) => (
