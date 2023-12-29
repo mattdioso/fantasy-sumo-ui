@@ -10,6 +10,7 @@ import Wrestlers from './pages/wrestlers';
 import Tournaments from './pages/tournaments';
 import Banzuke from './pages/banzuke';
 import Fantasy from './pages/fantasy';
+import About from './pages/about';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/about" element={<About/>}/>
         <Route path="/wrestlers" element={<Wrestlers />}/>
         <Route path="/tournaments" element={<Tournaments />}/>
         <Route path="/banzuke" element={<Banzuke />}/>

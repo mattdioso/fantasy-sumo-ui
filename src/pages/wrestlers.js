@@ -29,8 +29,10 @@ class Wrestlers extends React.Component {
 
     componentDidMount() {
       const headers = { 'Content-Type': 'application/json' };
-
-      const wrestler_api = 'http://localhost:5000/api/wrestlers';
+      const api_url = process.env.REACT_APP_API_URL;
+      const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+      const api_port = process.env.REACT_APP_API_PORT;
+      const wrestler_api = api_protocol + "://" + api_url + ":" + api_port + "/api/wrestlers";
       fetch(wrestler_api, { headers }).then(res => res.json()).then((res) => {
         
         this.setState({
@@ -122,7 +124,11 @@ class Wrestlers extends React.Component {
         super(props);
       }
       render() {
-        var img_src = "http://localhost:5000/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler_id);
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        var img_src = api_protocol + "://" + api_url + ":" + api_port + "/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler_id);
+        //var img_src = "http://localhost:5000/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler_id);
         return (
           <div className="image-container">
             <img className="card-image" src={img_src}></img>

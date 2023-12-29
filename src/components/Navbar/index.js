@@ -15,6 +15,11 @@ const Navbar = () => {
                 })}>
                     Home
                 </NavLink>
+                <NavLink to="/about" style={isActive => ({
+                    color: isActive ? "black": "white"
+                })}>
+                    About
+                </NavLink>
                 <NavLink to="/wrestlers" style={isActive => ({
                     color: isActive ? "black": "white"
                 })}>
