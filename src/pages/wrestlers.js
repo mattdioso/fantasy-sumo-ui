@@ -79,7 +79,7 @@ class Wrestlers extends React.Component {
     
           <div onMouseEnter={this.flip} onMouseLeave={this.flip} className={"card-container" + (this.state.flipped ? " flipped" : "")}>
     
-            <Front wrestler_id={this.props.wrestler.id} />
+            <Front wrestler={this.props.wrestler} />
             <Back wrestler={this.props.wrestler}/>
           </div>
     
@@ -94,7 +94,7 @@ class Wrestlers extends React.Component {
       render() {
         return (
           <div className="front">
-            <ImageArea wrestler_id={this.props.wrestler_id} />
+            <ImageArea wrestler={this.props.wrestler} />
             <MainArea />
           </div>
         )
@@ -127,8 +127,12 @@ class Wrestlers extends React.Component {
         const api_url = process.env.REACT_APP_API_URL;
         const api_protocol = process.env.REACT_APP_API_PROTOCOL;
         const api_port = process.env.REACT_APP_API_PORT;
-        var img_src = api_protocol + "://" + api_url + ":" + api_port + "/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler_id);
+        var img_src = api_protocol + "://" + api_url + ":" + api_port + "/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler.id);
         //var img_src = "http://localhost:5000/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler_id);
+        if (api_url != "localhost") {
+          img_src = this.props.wrestler.avatar_store;
+        }
+        console.log(img_src);
         return (
           <div className="image-container">
             <img className="card-image" src={img_src}></img>
