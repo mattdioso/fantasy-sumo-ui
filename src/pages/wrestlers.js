@@ -129,10 +129,9 @@ class Wrestlers extends React.Component {
         const api_port = process.env.REACT_APP_API_PORT;
         var img_src = api_protocol + "://" + api_url + ":" + api_port + "/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler.id);
         //var img_src = "http://localhost:5000/api/wrestlers/<ID>/avatar".replace("<ID>", this.props.wrestler_id);
-        if (api_url != "localhost") {
+        if (api_url !== "localhost") {
           img_src = this.props.wrestler.avatar_store;
         }
-        console.log(img_src);
         return (
           <div className="image-container">
             <img className="card-image" src={img_src}></img>

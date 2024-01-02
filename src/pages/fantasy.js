@@ -14,7 +14,10 @@ class Fantasy extends React.Component {
 
     componentDidMount() {
         const headers = { 'Content-Type': 'application/json' };
-        const teams_api = 'http://localhost:5000/api/teams';
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        const teams_api = api_protocol + '://' + api_url + ':' + api_port +'/api/teams';
         fetch(teams_api, {headers}).then(res => res.json()).then((res) => {
             this.setState({
                 teams: res

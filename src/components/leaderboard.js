@@ -9,7 +9,10 @@ class LeaderBoard extends React.Component {
     }
 
     componentDidMount() {
-        const teams_api = 'http://localhost:5000/api/teams';
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        const teams_api = api_protocol + '://' + api_url + ':' + api_port +'/api/teams';
         fetch(teams_api).then(res => res.json()).then((res) => {
             console.log(res);
             res.sort(function(a, b) {return b.wins - a.wins || b.total_points - a.total_points});
@@ -20,12 +23,31 @@ class LeaderBoard extends React.Component {
     }
 
     getUserPic(team) {
-      
-        return "http://localhost:5000/api/users/<ID>/avatar".replace("<ID>", team.user.id);
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        console.log(team);
+        let user_img_src = api_protocol + "://" + api_url + ":" + api_port + "/api/users/<ID>/avatar".replace("<ID>", team.user.id);
+        
+        if (api_url !== "localhost") {
+          
+          user_img_src = team.user.avatar_store;
+        }
+        return user_img_src;
       }
 
     getWrestlerPic(wrestler) {
-        return "http://localhost:5000/api/wrestlers/<ID>/icon".replace("<ID>", wrestler.id);
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        var wrestler_img_src = api_protocol + "://" + api_url + ":" + api_port + "/api/wrestlers/<ID>/icon".replace("<ID>", wrestler.id);
+        
+        
+        if (api_url !== "localhost") {
+          wrestler_img_src = wrestler.icon_store;
+          
+        }
+        return wrestler_img_src
     }
 
     render() {
