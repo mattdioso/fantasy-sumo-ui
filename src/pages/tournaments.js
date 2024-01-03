@@ -18,11 +18,14 @@ class Tournaments extends React.Component {
     }
 
     componentDidMount() {
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
         const headers = { 'Content-Type': 'application/json' };
-        const days_api = 'http://localhost:5000/api/days/';
-        const tournaments_api = 'http://localhost:5000/api/tournaments';
-        const tourney_days = 'http://localhost:5000/api/tournaments/<ID>/days';
-        const tournament = 'http://localhost:5000/api/tournaments/<ID>';
+        const tournaments_api = api_protocol + '://' + api_url + ':' + api_port + '/api/tournaments';
+        //const tournaments_api = 'http://localhost:5000/api/tournaments';
+        const tournament = api_protocol + '://' + api_url + ':' + api_port + '/api/tournaments/<ID>';
+        //const tournament = 'http://localhost:5000/api/tournaments/<ID>';
         fetch(tournament.replace("<ID>", this.state.tournament_id), {headers}).then(res => res.json()).then(res => {
             let tournament_matches = res.matches;
             let day_matches  = tournament_matches.filter(match => match.day === this.state.day);
@@ -100,13 +103,13 @@ class Tournaments extends React.Component {
     render() {
           
         return (
-            <div class="matchlist">
-                <div class="selections">
-                    <div class="select">
+            <div class="[position:center] w-full px-[20%] py-16 overflow-y-scroll overflow-x-hidden">
+                <div class="grid grid-cols-2 mb-2">
+                    <div class="w-60 inline z-20">
                         <label for="tournaments">Tournament: </label>
                         <Select name="tournaments" defaultValue={{ label: "November Banzuke", value: "857bc3fa-c100-4952-b5bf-3114471cba55" }} options={this.state.tournament} onChange={(id) => this.setTourney(id)}/>
                     </div>
-                    <div class="select">
+                    <div class="w-60 inline z-20">
                         <label for="days">Day: </label>
                         <Select name="days" style="width: 5px;" defaultValue={{ label: 1, value: 1}} options={this.state.days} onChange={(selection) => this.setDay(selection)}/>
                     </div>

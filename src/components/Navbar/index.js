@@ -4,12 +4,12 @@ import { Nav, NavLogo, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from './Navb
 const Navbar = () => {
     return (
         <>
-        <Nav>
+        <nav class="bg-blue-600 h-screen w-32 justify-between items-center pl-2 pt-2 space-y-2">
             <NavLogo to="/">
-                Logo
+                <img class="h-24 w-24" src="https://storage.googleapis.com/fantasy-sumo-409406.appspot.com/logo/logo.png" alt="sumo_logo"></img>
             </NavLogo>
             <Bars />
-            <NavMenu>
+            <div class="items-center mr-[24px] space-y-2">
                 <NavLink to="/" style={isActive => ({
                     color: isActive ? "black": "white"
                 })}>
@@ -40,8 +40,8 @@ const Navbar = () => {
                 })}>
                     Fantasy
                 </NavLink>
-            </NavMenu>
-        </Nav>
+            </div>
+        </nav>
         </>
     );
 };

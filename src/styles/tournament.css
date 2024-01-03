@@ -1,12 +1,3 @@
-body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    background: grey;
-    position: absolute;
-    box-sizing: border-box;
-}
-
 .matchlist {
     position: center;
     width: 50rem;

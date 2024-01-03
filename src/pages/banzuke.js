@@ -15,7 +15,11 @@ class Banzuke extends React.Component {
 
     componentDidMount() {
         const headers = { 'Content-Type': 'application/json' };
-        const rankings_api = 'http://localhost:5000/api/rankings/';
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        const rankings_api = api_protocol + '://' + api_url + ':' + api_port + '/api/rankings/';
+        //const rankings_api = 'http://localhost:5000/api/rankings/';
         
         fetch(rankings_api + this.state.tournament_id, {headers}).then(res => res.json()).then(res => {
             this.setState({
@@ -44,7 +48,11 @@ class Banzuke extends React.Component {
 
     setTourney(selection) {
         console.log(selection);
-        const rankings_api = 'http://localhost:5000/api/rankings/';
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        const rankings_api = api_protocol + '://' + api_url + ':' + api_port + '/api/rankings/';
+        //const rankings_api = 'http://localhost:5000/api/rankings/';
         this.setState({
             tournament_id: selection.value
         });
@@ -78,16 +86,16 @@ class Banzuke extends React.Component {
         ]
         
         return (
-            <div class="banzuke">
+            <div class="[position:center] w-full px-[17%] py-16 overflow-y-scroll overflow-x-hidden">
                 <Select name="tournaments" options={selections} onChange={(selection) => this.setTourney(selection)}/>
-                <div class="banzuke-header">
-                    <div class="west">
+                <div class="w-[45rem] h-16 mt-2 rounded-t-lg bg-yellow-100 grid grid-cols-16 border border-black">
+                    <div class="col-span-7 border-r border-black">
                         <h3>West</h3>
                     </div>
-                    <div class="rank">
+                    <div class="col-start-8 col-end-10">
                         <h3>Rank</h3>
                     </div>
-                    <div class="east">
+                    <div class="col-span-7 border-l border-black">
                         <h3>East</h3>
                     </div>
                 </div>

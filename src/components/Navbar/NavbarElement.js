@@ -4,8 +4,7 @@ import styled from "styled-components";
 
 export const Nav = styled.nav`
     background: #0C83EB;
-    height: 85px;
-    display: flex;
+    width: 30px;
     justify-content: space-between;
     align-items: center;
     padding: 0.2rem calc((100vw - 1000px) / 2);
@@ -50,10 +49,10 @@ export const Bars = styled(FaBars)`
 `;
 
 export const NavMenu = styled.div`
-    display: flex;
+    
     align-items: center;
     margin-right: -24px;
-
+    margin-top:0.25rem;
     @media screen and (max-width: 768px) {
         display: none;
     }

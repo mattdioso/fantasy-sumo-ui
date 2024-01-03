@@ -26,9 +26,9 @@ class Fantasy extends React.Component {
     }
 
     render() {
-        console.log(this.state.teams);
+        
         return (
-            <div className="h-full  w-full">
+            <div className="h-screen w-full overflow-y-hidden">
                 <Tabs>
                     <div label="Teams">
                         {/* {this.state.teams.map((team) => (

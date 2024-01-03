@@ -42,9 +42,16 @@ class ScoreBoard extends React.Component {
 
     componentDidMount() {
       const headers = { 'Content-Type': 'application/json' };
-      const teams_api = 'http://localhost:5000/api/teams';
-      const fantasy_matchup_api = 'http://localhost:5000/api/fantasy_matchups';
-      const tournament_api = 'http://localhost:5000/api/tournaments';
+      const api_url = process.env.REACT_APP_API_URL;
+      const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+      const api_port = process.env.REACT_APP_API_PORT;
+      
+      const teams_api = api_protocol + '://' + api_url + ':' + '/api/teams';
+      const fantasy_matchup_api = api_protocol + '://' + api_url + ':' + '/api/fantasy_matchups';
+      const tournament_api = api_protocol + '://' + api_url + ':' + '/api/tournaments';
+      //const teams_api = 'http://localhost:5000/api/teams';
+      //const fantasy_matchup_api = 'http://localhost:5000/api/fantasy_matchups';
+      //const tournament_api = 'http://localhost:5000/api/tournaments';
 
       fetch(tournament_api + "/" + "1faf296f-1e65-4572-8ad5-7d977c200cc5", {headers}).then(res => res.json()).then((res) => {
         //console.log(res.matches);
@@ -228,7 +235,10 @@ class ScoreBoard extends React.Component {
 
     getUserPic(team) {
       
-      return "http://localhost:5000/api/users/<ID>/avatar".replace("<ID>", team.user.id);
+      if (process.env.REACT_APP_API_URL === 'localhost') {
+        return "http://localhost:8080/api/users/<ID>/avatar".replace("<ID>", team.user.id);
+      }
+      return team.user.avatar_store;
     }
 
     render() {

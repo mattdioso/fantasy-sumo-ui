@@ -52,7 +52,7 @@ class LeaderBoard extends React.Component {
 
     render() {
         return (
-            <div class="h-full w-full space-y-4">
+            <div class="h-full w-full space-y-2 py-2 mb-2 overflow-y-scroll">
                 {
                     this.state.teams.map((team, i) => (
                         <div class="h-1/5 w-11/12 border border-black mx-auto grid grid-cols-10">
