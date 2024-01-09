@@ -30,13 +30,14 @@ class Rank extends React.Component {
         if (this.props.east) {
             fetch(wrestler_api + this.props.east.idWrestler, {headers}).then(res => res.json()).then((res) => {
                 this.setState({
-                    east_info: res
+                    east_info: res,
+                    east_id: this.props.east.idWrestler
                 })
             });
-            this.setState({
+            // this.setState({
                 
-                east_id: this.props.east.idWrestler
-            })
+                
+            // })
         }
         
     }
@@ -56,7 +57,7 @@ class Rank extends React.Component {
             <div class={`grid grid-cols-8 [grid-template-rows:4] col-span-7 border-r border-black ${this.props.style === "sanyaku" ? "bg-yellow-100": ""}`}>
                 { this.props.west ? (
                 <>
-                    <img src={west_icon} class="row-start-1 row-end-2 col-start-2 col-end-4 mt-2"></img>
+                    <img src={west_icon} class="row-start-1 rounded-xl row-end-2 border border-black col-start-2 col-end-4 mt-2"></img>
                     <p class="m-0 col-start-1 col-end-4 text-center">{this.state.west_info.ringname}</p>
                     <div class="row-start-1 row-end-3 col-start-5 col-end-9 grid grid-cols-2 content-center">
                        <h3 class="col-span-2">{this.props.west.wins}-{this.props.west.losses}</h3>
@@ -70,7 +71,7 @@ class Rank extends React.Component {
             <div class={`grid grid-cols-8 [grid-template-rows:4] col-span-7 border-l border-black  ${this.props.style === "sanyaku" ? "bg-yellow-100": ""}`}>
                 { this.props.east ? (
                 <>
-                    <img src={east_icon} class="row-start-1 row-end-2 col-start-6 col-end-8 mt-2"></img>
+                    <img src={east_icon} class="row-start-1 rounded-xl row-end-2 border border-black col-start-6 col-end-8 mt-2"></img>
                     <p class="m-0 col-start-6 col-end-7 text-center">{this.state.east_info.ringname}</p>
                     <div class="row-start-1 row-end-3 col-start-1 col-end-5 grid grid-cols-2 content-center">
                         <h3 class="col-span-2">{this.props.east.wins}-{this.props.east.losses}</h3>
