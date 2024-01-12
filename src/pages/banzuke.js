@@ -65,19 +65,12 @@ class Banzuke extends React.Component {
               let a_rank = this.state.rankings.filter((ranking) => ranking.idWrestler === a.id)[0].rank;
               a_index = ranks.indexOf(a_rank);
   
-              if (a.ringname === "Kaisei") {
-                console.log("kaisei rank: " + a_rank);
-              }
             } catch (e) {
               a_index = 10000;
             }
             try {
               let b_rank = this.state.rankings.filter((ranking) => ranking.idWrestler === b.id)[0].rank
               b_index = ranks.indexOf(b_rank);
-              
-              if (b.ringname === "Kaisei") {
-                console.log("kaisei rank: " + b_rank);
-              }
       
             } catch (e) {
               
