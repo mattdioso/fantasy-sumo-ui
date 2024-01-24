@@ -72,7 +72,7 @@ class Tournaments extends React.Component {
     }
     
     componentDidUpdate(prevProps) {
-        
+        //TODO: update matches when new tournament is selected
     }
 
     sortWrestlers(a, b) {

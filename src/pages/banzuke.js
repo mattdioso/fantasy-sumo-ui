@@ -9,7 +9,9 @@ class Banzuke extends React.Component {
         super();
         this.state = {
             rankings: [],
-            tournament_id: "1faf296f-1e65-4572-8ad5-7d977c200cc5"
+            tournament_id: "1faf296f-1e65-4572-8ad5-7d977c200cc5",
+            tournaments: [],
+            tournament_selections: []
         }
     }
 
@@ -20,12 +22,30 @@ class Banzuke extends React.Component {
         const api_port = process.env.REACT_APP_API_PORT;
         const rankings_api = api_protocol + '://' + api_url + ':' + api_port + '/api/rankings/';
         //const rankings_api = 'http://localhost:5000/api/rankings/';
+        const tournaments_api = api_protocol + '://' + api_url + ':' + api_port + '/api/tournaments';
         
         fetch(rankings_api + this.state.tournament_id, {headers}).then(res => res.json()).then(res => {
             this.setState({
                 rankings: res
             })
         });
+        fetch(tournaments_api, {headers}, {priority: 'high'}).then(res => res.json()).then(res => {
+            let selections = [];
+            for (let i = 0; i < res.length; i++) {
+                selections.push({
+                    label: res[i].name,
+                    value: res[i].id
+                })
+            }
+            this.setState({
+                tournaments: res,
+                tournament_selections: selections
+            })
+        })
+    }
+
+    componentDidUpdate(prevProps) {
+        //TODO: update wrestler lists in render() to update wrestler standings
     }
 
     createRankList(west, east) {
@@ -114,7 +134,7 @@ class Banzuke extends React.Component {
         let maegashira_east = this.state.rankings.filter(rank => rank.rank.match(maegashira_regex) && rank.division === 'east');
         let maegashira_west = this.state.rankings.filter(rank => rank.rank.match(maegashira_regex) && rank.division === 'west');
         console.log("in render")
-        console.log(maegashira_east[2]);
+        console.log(maegashira_east[14]);
         let y_list = this.createRankList(yokozuna_west, yokozuna_east);
         let o_list = this.createRankList(ozeki_west, ozeki_east);
         let s_list = this.createRankList(sekiwake_west, sekiwake_east);
@@ -126,7 +146,7 @@ class Banzuke extends React.Component {
         
         return (
             <div class="[position:center] w-full px-[17%] py-16 overflow-y-scroll overflow-x-hidden">
-                <Select name="tournaments" options={selections} onChange={(selection) => this.setTourney(selection)}/>
+                <Select name="tournaments" options={this.state.tournament_selections} onChange={(selection) => this.setTourney(selection)}/>
                 <div class="w-[45rem] h-16 mt-2 rounded-t-lg bg-yellow-100 grid grid-cols-16 border border-black">
                     <div class="col-span-7 border-r border-black">
                         <h3>West</h3>

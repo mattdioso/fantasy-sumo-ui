@@ -168,7 +168,6 @@ class ScoreBoard extends React.Component {
       console.log(team.teamname);
       let matchup = this.state.selection.value.filter(matchup => matchup.team1.id === team.id || matchup.team2.id === team.id);
       let all_matches = this.state.selection.value.map(match => match.matches).reduce((a, b) => a.concat(b), []);
-      console.log(all_matches);
       let day1 = matchup[0].day1;
       let day2 = matchup[0].day2;
       let day3 = matchup[0].day3;

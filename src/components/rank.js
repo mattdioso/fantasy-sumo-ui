@@ -42,6 +42,33 @@ class Rank extends React.Component {
         
     }
 
+    componentDidUpdate(prevProps) {
+        const headers = { 'Content-Type': 'application/json' };
+        const api_url = process.env.REACT_APP_API_URL;
+        const api_protocol = process.env.REACT_APP_API_PROTOCOL;
+        const api_port = process.env.REACT_APP_API_PORT;
+        const wrestler_api = api_protocol + '://' + api_url + ':' + '/api/wrestlers/'
+        if (this.props.west.idWrestler !== prevProps.west.idWrestler) {
+            fetch(wrestler_api + this.props.west.idWrestler, {headers}).then(res => res.json()).then((res) => {
+                this.setState({
+                    west_info: res,
+                    west_id: this.props.west.idWrestler
+                })
+            });
+        }
+        if (this.props.east && prevProps.east && (this.props.east.idWrestler !== prevProps.east.idWrestler)) {
+            
+            fetch(wrestler_api + this.props.east.idWrestler, {headers}).then(res => res.json()).then((res) => {
+                
+                this.setState({
+                    east_info: res,
+                    east_id: this.props.east.idWrestler
+                })
+            });
+            
+        }
+    }
+
     render() {
         
         let west_icon = "";
@@ -52,6 +79,7 @@ class Rank extends React.Component {
         if (this.props.east) {
             east_icon= this.state.east_info.icon_store;
         }
+        
 
        return( <div class="w-[45rem] h-28 border border-black grid grid-cols-16 bg-white">
             <div class={`grid grid-cols-8 [grid-template-rows:4] col-span-7 border-r border-black ${this.props.style === "sanyaku" ? "bg-yellow-100": ""}`}>
