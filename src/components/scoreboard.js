@@ -13,6 +13,8 @@ class ScoreBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          fantasy_tournament: "26ab9b5a-d45d-4fa2-8373-933475fdf92f",
+          tournament: "1faf296f-1e65-4572-8ad5-7d977c200cc5",
           matches:[], 
           teams: [], 
           selections: [
@@ -47,13 +49,13 @@ class ScoreBoard extends React.Component {
       const api_port = process.env.REACT_APP_API_PORT;
       
       const teams_api = api_protocol + '://' + api_url + ':' + '/api/teams';
-      const fantasy_matchup_api = api_protocol + '://' + api_url + ':' + '/api/fantasy_matchups';
+      const fantasy_matchup_api = api_protocol + '://' + api_url + ':' + '/api/fantasy_tournaments/<ID>/matches';
       const tournament_api = api_protocol + '://' + api_url + ':' + '/api/tournaments';
       //const teams_api = 'http://localhost:5000/api/teams';
       //const fantasy_matchup_api = 'http://localhost:5000/api/fantasy_matchups';
       //const tournament_api = 'http://localhost:5000/api/tournaments';
 
-      fetch(tournament_api + "/" + "1faf296f-1e65-4572-8ad5-7d977c200cc5", {headers}).then(res => res.json()).then((res) => {
+      fetch(tournament_api + "/" + this.state.tournament, {headers}).then(res => res.json()).then((res) => {
         //console.log(res.matches);
         this.setState({
           matches: res.matches
@@ -66,7 +68,7 @@ class ScoreBoard extends React.Component {
         })
       });
 
-      fetch(fantasy_matchup_api, {headers}).then(res => res.json()).then((res) => {
+      fetch(fantasy_matchup_api.replace("<ID>", this.state.fantasy_tournament), {headers}).then(res => res.json()).then((res) => {
         let matchup_1 = res.filter(matchup => matchup.day1 === 1);
         let matchup_2 = res.filter(matchup => matchup.day1 === 4);
         let matchup_3 = res.filter(matchup => matchup.day1 === 7);
