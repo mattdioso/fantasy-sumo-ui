@@ -54,7 +54,7 @@ class Fantasy extends React.Component {
     render() {
         
         return (
-            <div className="h-screen w-full overflow-y-hidden">
+            <div className="h-full w-full overflow-y-hidden">
                 <div class="w-60 inline z-50">
                     <label for="tournaments">Tournament: </label>
                     <Select name="fantasy_tournaments" defaultValue={{value: "2ea49be1-cd3c-424c-8cb2-e7c829e34104", label: "January Basho"}} options={this.state.fantasy_tournaments} onChange={(selection) => this.setTourney(selection)}/>
@@ -65,10 +65,10 @@ class Fantasy extends React.Component {
                             <Team team={team} />
                         ))} */}
                         
-                        <LeaderBoard tournament={this.state.fantasy_tournament}></LeaderBoard>
+                        <LeaderBoard fantasy_tournament={this.state.fantasy_tournament}></LeaderBoard>
                     </div>
                     <div label="Scoreboard">
-                        <ScoreBoard />
+                        <ScoreBoard fantasy_tournament={this.state.fantasy_tournament} />
                     </div>
                 </Tabs>
             </div>

@@ -30,18 +30,18 @@ class LeaderBoard extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.tournament !== this.props.tournament) {
+        if (prevProps.fantasy_tournament !== this.props.fantasy_tournament) {
             
             const api_url = process.env.REACT_APP_API_URL;
             const api_protocol = process.env.REACT_APP_API_PROTOCOL;
             const api_port = process.env.REACT_APP_API_PORT;
             const teams_api = api_protocol + '://' + api_url + ':' + api_port +'/api/teams';
             const fantasy_tournaments_api = api_protocol + '://' + api_url + ':' + api_port +'/api/fantasy_tournaments';
-            fetch(fantasy_tournaments_api + '/' + this.props.tournament).then(res => res.json()).then((res) => {
+            fetch(fantasy_tournaments_api + '/' + this.props.fantasy_tournament).then(res => res.json()).then((res) => {
                 let teams = res.teams.sort(function(a, b) {return b.wins - a.wins || b.total_points - a.total_points});
                 this.setState({
                     teams: teams,
-                    fantasy_tournament: this.props.tournament
+                    fantasy_tournament: this.props.fantasy_tournament
                 })
             });
         }
@@ -77,7 +77,7 @@ class LeaderBoard extends React.Component {
 
     render() {
         return (
-            <div class="h-full w-full space-y-2 py-2 mb-2 overflow-y-scroll">
+            <div class="h-screen w-full space-y-2 pt-2 pb-32 mb-2 overflow-y-scroll">
                 {
                     this.state.teams.map((team, i) => (
                         <div class="h-1/5 w-11/12 border border-black mx-auto grid grid-cols-10">
@@ -88,11 +88,13 @@ class LeaderBoard extends React.Component {
                                 <div class="h-full col-span-1">
                                     <img class="mx-auto" src={this.state.teams ? this.getUserPic(team) : ""} width="111px" height="108px"></img>
                                     <p class="text-center">{team.wins}-{team.losses}</p>
+                                    <p class="text-sm text-center">Total Points: {team.total_points}</p>
                                 </div>
                                 {
                                     team.wrestlers.map((wrestler, x) => (
                                         <div class="h-full col-span-1">
-                                            <img class="mx-auto" src={this.state.teams ? this.getWrestlerPic(wrestler) : ""} width="111px" height="108px"></img>
+                                            <img class="mx-auto h-16 w-16 mt-4" src={this.state.teams ? this.getWrestlerPic(wrestler) : ""} ></img>
+                                            <p class="text-sm text-center">{this.state.teams? wrestler.ringname : ""}</p>
                                         </div>
                                     ))
                                 }

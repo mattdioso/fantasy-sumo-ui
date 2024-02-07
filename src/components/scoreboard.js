@@ -13,8 +13,8 @@ class ScoreBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          fantasy_tournament: "26ab9b5a-d45d-4fa2-8373-933475fdf92f",
-          tournament: "1faf296f-1e65-4572-8ad5-7d977c200cc5",
+          fantasy_tournament: "2ea49be1-cd3c-424c-8cb2-e7c829e34104",
+          tournament: "eef17dc9-f019-435d-84e3-759549f6ab6a",
           matches:[], 
           teams: [], 
           selections: [
@@ -48,12 +48,10 @@ class ScoreBoard extends React.Component {
       const api_protocol = process.env.REACT_APP_API_PROTOCOL;
       const api_port = process.env.REACT_APP_API_PORT;
       
-      const teams_api = api_protocol + '://' + api_url + ':' + '/api/teams';
-      const fantasy_matchup_api = api_protocol + '://' + api_url + ':' + '/api/fantasy_tournaments/<ID>/matches';
-      const tournament_api = api_protocol + '://' + api_url + ':' + '/api/tournaments';
-      //const teams_api = 'http://localhost:5000/api/teams';
-      //const fantasy_matchup_api = 'http://localhost:5000/api/fantasy_matchups';
-      //const tournament_api = 'http://localhost:5000/api/tournaments';
+      const teams_api = api_protocol + '://' + api_url + ':' + api_port + '/api/teams';
+      const fantasy_matchup_api = api_protocol + '://' + api_url + ':' + api_port + '/api/fantasy_tournaments/<ID>/matches';
+      const tournament_api = api_protocol + '://' + api_url + ':' + api_port + '/api/tournaments';
+      const fantasy_tournaments_api = api_protocol + '://' + api_url + ':' + api_port +'/api/fantasy_tournaments';
 
       fetch(tournament_api + "/" + this.state.tournament, {headers}).then(res => res.json()).then((res) => {
         //console.log(res.matches);
@@ -62,18 +60,20 @@ class ScoreBoard extends React.Component {
         })
       })
 
-      fetch(teams_api, {headers}).then(res => res.json()).then((res) => {
+      fetch(fantasy_tournaments_api + '/' + this.state.fantasy_tournament, {headers}).then(res => res.json()).then((res) => {
         this.setState({
-          teams: res
+          teams: res.teams
         })
       });
 
       fetch(fantasy_matchup_api.replace("<ID>", this.state.fantasy_tournament), {headers}).then(res => res.json()).then((res) => {
+        
         let matchup_1 = res.filter(matchup => matchup.day1 === 1);
         let matchup_2 = res.filter(matchup => matchup.day1 === 4);
         let matchup_3 = res.filter(matchup => matchup.day1 === 7);
         let matchup_4 = res.filter(matchup => matchup.day1 === 10);
         let matchup_5 = res.filter(matchup => matchup.day1 === 13);
+        console.log(matchup_1)
         let ret = [];
         if (matchup_1 !== undefined && matchup_1.length !== 0)
           ret.push({
@@ -109,6 +109,12 @@ class ScoreBoard extends React.Component {
         this.setMatchup(ret[ret.length-1]);
         
       })
+    }
+
+    componentDidUpdate(prevProps) {
+      if (prevProps.fantasy_tournament !== this.props.fantasy_tournament) {
+        
+      }
     }
 
     getWrestlerScore(team, wrestler) {
@@ -163,7 +169,7 @@ class ScoreBoard extends React.Component {
       //console.log(day_scores);
       let top_four_values = day_scores.sort((a,b) => b-a).slice(0,4);
       //console.log(top_four_values);
-      return top_four_values.reduce((a, b) => a + b, 0);
+      return day_scores.reduce((a, b) => a + b, 0);
     }
 
     getTeamScore(team) {
@@ -193,10 +199,12 @@ class ScoreBoard extends React.Component {
     setMatchup(matchup) {
       let matchups = matchup.value;
       let pairs = matchups.map(this.getTeammatchups);
-      
+      //console.log(pairs)
       let selected_matchup = matchups[this.state.selected_pair];
       let team1 = selected_matchup.team1;
       let team2 = selected_matchup.team2;
+      console.log(team1);
+      console.log(team2);
       let team1_wrestlers = team1.wrestlers;
       let team2_wrestlers = team2.wrestlers;
       
@@ -270,8 +278,8 @@ class ScoreBoard extends React.Component {
                             </div>
                             <div class="h-32 col-span-1">
                                 <p class="text-center my-10 text-6xl">
-                                  {this.state.team1_score}
-                                {/* {this.state.selection ? this.getTeamScore(this.state.team1) : 0} */}
+                                  {/* {this.state.team1_score} */}
+                                {this.state.selection ? this.getTeamScore(this.state.team1) : 0}
                                 </p>
                             </div>
                         </div>
@@ -305,8 +313,8 @@ class ScoreBoard extends React.Component {
                         <div class="h-32 w-full border-b border-solid border-gray-500 grid grid-cols-3">
                             <div class="h-32 col-span-1"> 
                                 <p class="text-center text-6xl my-10">
-                                  {this.state.team2_score}
-                                {/* {this.state.selection ? this.getTeamScore(this.state.team2) : 0} */}
+                                  {/* {this.state.team2_score} */}
+                                {this.state.selection ? this.getTeamScore(this.state.team2) : 0}
                                 </p>
                             </div>
                             <div class="h-32 col-span-2 content-center px-28">
