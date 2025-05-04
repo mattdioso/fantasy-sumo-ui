@@ -73,13 +73,8 @@ const Matchups = () => {
         }
     }, [selectedTournament, matches])
 
-    useEffect(() => {
-        console.log("selectedMatch ", selectedMatch)
-    }, [selectedMatch])
-
     if (tournamentsError) return <div>Failed to Load tournament data</div>
     if (!fantasy_tournaments) return <div>Loading tournament data...</div>
-    console.log(tournamentsDropdown)
     return (
         <div className="text-white">
             <div className="flex justify-between">

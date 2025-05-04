@@ -26,7 +26,7 @@ export function WrestlerScoreTable({
     headers: string[];
     data: WrestlerScore[];
 }) {
-    console.log(data);
+
     return (
         <Table>
             <TableCaption>{caption}</TableCaption>

@@ -14,6 +14,7 @@ import {
 import { WrestlerDrawer } from "./wrestler_drawer";
 import { useState } from "react";
 import { parse } from "path";
+import { TeamScoreDrawer } from "./team_score_drawer";
 
 export function Matches({
     matchData
@@ -21,6 +22,8 @@ export function Matches({
     matchData: any[]
 }) {
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+    const [teamDrawerOpen, setTeamDrawerOpen] = useState<boolean>(false);
+    const [selectedTeam, setSelectedTeam] = useState<any>({});
     const [selectedWrestler, setSelectedWrestler] = useState<any>({})
     const all_matches = matchData.map(match => match.matches).reduce((a, b) => a.concat(b), []);
 
@@ -117,13 +120,14 @@ export function Matches({
                                     }
                                     <TableRow className="text-center">
                                         <TableCell>Total points</TableCell>
-                                        <TableCell>{getTeamScore(match.team1, match)}</TableCell>
-                                        <TableCell>{getTeamScore(match.team2, match)}</TableCell>
+                                        <TableCell onClick={() => { setTeamDrawerOpen(!teamDrawerOpen); setSelectedTeam(match.team1) }}>{getTeamScore(match.team1, match)}</TableCell>
+                                        <TableCell onClick={() => { setTeamDrawerOpen(!teamDrawerOpen); setSelectedTeam(match.team2) }}>{getTeamScore(match.team2, match)}</TableCell>
                                         <TableCell>Total points</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
-                            <WrestlerDrawer isOpen={drawerOpen} setOpen={setDrawerOpen} wrestler={selectedWrestler} matches={all_matches} matchup={matchData} />
+                            {selectedWrestler && <WrestlerDrawer isOpen={drawerOpen} setOpen={setDrawerOpen} wrestler={selectedWrestler} matches={all_matches} matchup={Object.assign({}, ...matchData)} />}
+                            {selectedTeam && <TeamScoreDrawer isOpen={teamDrawerOpen} setOpen={setTeamDrawerOpen} team={selectedTeam} matchup={Object.assign({}, ...matchData.filter((match: any) => match.team1.id === selectedTeam.id || match.team2.id === selectedTeam.id))} />}
                         </Card>
                     </TabsContent>
                 ))

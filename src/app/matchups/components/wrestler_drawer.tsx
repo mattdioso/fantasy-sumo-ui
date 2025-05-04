@@ -22,12 +22,8 @@ export function WrestlerDrawer({ isOpen, setOpen, wrestler, matches, matchup }: 
 }) {
     const headers = ["Wrestler", "Opponent", "Day", "Win", "Score"];
     const wrestler_matches = matches.filter((match: any) => match.wrestler1.id === wrestler.id || match.wrestler2.id === wrestler.id);
-    const day1 = matchup[0].day1;
-    const day2 = matchup[0].day2;
-    const day3 = matchup[0].day3;
-    //const { day1, day2, day3 } = matchup;
-    console.log(wrestler.id)
-    console.log(wrestler_matches)
+    const { day1, day2, day3 } = matchup;
+
     let day_matches = [
         ...wrestler_matches.filter((match: any) => match.day === day1),
         ...wrestler_matches.filter((match: any) => match.day === day2),
